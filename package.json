@@ -1,0 +1,12 @@
+{
+  "name": "my-vercel-site",
+  "version": "1.0.0",
+  "description": "A cool website hosted on Vercel",
+  "main": "index.js",
+  "scripts": {
+    "start": "node server.js",
+    "build": "echo 'No build step required'"
+  },
+  "author": "Your Name",
+  "license": "MIT"
+}
