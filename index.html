@@ -1,0 +1,809 @@
+<!DOCTYPE html>
+<html lang="en">
+ 
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Override | Advanced Lua Utility Service</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+ 
+<body>
+    <!-- SVG Filters for Wavy Water Effect -->
+    <svg xmlns="http://www.w3.org/2000/svg" version="1.1" height="0" width="0">
+        <defs>
+            <filter id="wavy">
+                <feTurbulence type="fractalNoise" baseFrequency="0.15" numOctaves="1" result="turbulence" seed="3">
+                    <animate attributeName="baseFrequency" values="0.15;0.18;0.15" dur="10s" repeatCount="indefinite" />
+                </feTurbulence>
+                <feDisplacementMap in="SourceGraphic" in2="turbulence" scale="2" xChannelSelector="R" yChannelSelector="G" />
+            </filter>
+        </defs>
+    </svg>
+ 
+    <!-- Background Effects -->
+    <div class="background-effects">
+        <div class="gradient-sphere gradient-sphere-1"></div>
+        <div class="gradient-sphere gradient-sphere-2"></div>
+        <div class="gradient-sphere gradient-sphere-3"></div>
+        <div class="noise-overlay"></div>
+        <div class="grid-overlay"></div>
+    </div>
+ 
+    <!-- Loading Screen -->
+    <div class="loading-screen">
+        <div class="logo">Override<span class="logo-dot"></span></div>
+        <div class="loader-container">
+            <div class="loader-chamber">
+                <div class="chamber-effects">
+                    <div class="chamber-rings">
+                        <div class="ring ring-1"></div>
+                        <div class="ring ring-2"></div>
+                        <div class="ring ring-3"></div>
+                    </div>
+                    <div class="chamber-particles"></div>
+                </div>
+                <div class="chamber-fill">
+                    <div class="liquid-surface">
+                        <div class="liquid-highlight"></div>
+                    </div>
+                    <div class="liquid-bubbles">
+                        <div class="bubble bubble-1"></div>
+                        <div class="bubble bubble-2"></div>
+                        <div class="bubble bubble-3"></div>
+                        <div class="bubble bubble-4"></div>
+                        <div class="bubble bubble-5"></div>
+                        <div class="bubble bubble-6"></div>
+                        <div class="bubble bubble-7"></div>
+                    </div>
+                </div>
+                <div class="chamber-core"></div>
+                <div class="chamber-indicators">
+                    <div class="indicator indicator-left"></div>
+                    <div class="indicator indicator-right"></div>
+                </div>
+                <div class="chamber-gauge">
+                    <span class="gauge-reading">0%</span>
+                </div>
+            </div>
+            <div class="loader-text">INITIALIZING SYSTEM</div>
+        </div>
+        <div class="status">
+            <span class="status-dot"></span>
+            <span class="status-text">CONNECTING</span>
+        </div>
+        <div class="loading-details">
+            <div class="loading-detail">
+                <span class="loading-label">Status:</span>
+                <span class="loading-value">Establishing connection</span>
+            </div>
+            <div class="loading-detail">
+                <span class="loading-label">Version:</span>
+                <span class="loading-value">1.0.38</span>
+            </div>
+            <div class="loading-detail">
+                <span class="loading-label">Server:</span>
+                <span class="loading-value">eu-central-1</span>
+            </div>
+        </div>
+    </div>
+ 
+    <!-- Final Loading Animation -->
+    <div class="loading-final-animation">
+        <div class="final-logo">Override<span class="logo-dot"></span></div>
+        <div class="final-rays">
+            <div class="ray ray-1"></div>
+            <div class="ray ray-2"></div>
+            <div class="ray ray-3"></div>
+            <div class="ray ray-4"></div>
+            <div class="ray ray-5"></div>
+            <div class="ray ray-6"></div>
+            <div class="ray ray-7"></div>
+            <div class="ray ray-8"></div>
+        </div>
+        <div class="final-particles">
+            <div class="particle" style="--tx: 40px; --ty: -30px;"></div>
+            <div class="particle" style="--tx: -50px; --ty: -60px;"></div>
+            <div class="particle" style="--tx: 70px; --ty: 40px;"></div>
+            <div class="particle" style="--tx: -30px; --ty: 50px;"></div>
+            <div class="particle" style="--tx: 60px; --ty: -50px;"></div>
+            <div class="particle" style="--tx: -70px; --ty: 30px;"></div>
+            <div class="particle" style="--tx: 50px; --ty: 60px;"></div>
+            <div class="particle" style="--tx: -40px; --ty: -45px;"></div>
+            <div class="particle" style="--tx: 20px; --ty: 70px;"></div>
+            <div class="particle" style="--tx: -60px; --ty: -20px;"></div>
+            <div class="particle" style="--tx: 80px; --ty: 10px;"></div>
+            <div class="particle" style="--tx: -10px; --ty: -80px;"></div>
+        </div>
+    </div>
+ 
+    <!-- Main Content -->
+    <div class="main-content hidden">
+        <!-- Floating UI Elements -->
+        <div class="floating-ui-elements">
+            <div class="notification-indicator">
+                <span class="indicator-dot"></span>
+                <span class="indicator-text">SYSTEM ONLINE</span>
+            </div>
+            <div class="server-status">
+                <span class="status-icon"></span>
+                <span class="status-text">5ms latency</span>
+            </div>
+        </div>
+ 
+        <!-- Navigation -->
+        <nav>
+            <div class="nav-logo">Override<span class="nav-logo-dot"></span></div>
+            <ul class="nav-links">
+                <li><a href="#home" class="active">Home</a></li>
+                <li><a href="#features">Features</a></li>
+                <li><a href="#documentation">Documentation</a></li>
+                <li><a href="#community">Community</a></li>
+            </ul>
+            <div class="nav-status">
+                <div class="status-item">
+                    <span class="status-icon"></span>
+                    <span>SYSTEM ONLINE</span>
+                </div>
+                <div class="status-item">
+                    <span class="status-icon"></span>
+                    <span>5ms latency</span>
+                </div>
+            </div>
+            <div class="nav-buttons">
+                <button class="btn btn-outline">Login</button>
+                <button class="btn btn-primary">Get Started</button>
+            </div>
+            <div class="nav-toggle">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </nav>
+ 
+        <!-- Hero Section -->
+        <section id="home" class="hero">
+            <div class="hero-background">
+                <div class="hero-glow"></div>
+                <div class="floating-elements">
+                    <div class="floating-element fe-1"></div>
+                    <div class="floating-element fe-2"></div>
+                    <div class="floating-element fe-3"></div>
+                </div>
+            </div>
+ 
+            <div class="hero-content">
+                <div class="hero-badge">NEXT-GEN LUA PLATFORM</div>
+                <h1 class="hero-title">Advanced Lua Utility Service</h1>
+                <p class="hero-subtitle">Unlock the full potential of Lua with our powerful toolkit designed for developers who demand performance and reliability.</p>
+                <div class="hero-buttons">
+                    <button class="btn btn-primary">Get Started <i class="fas fa-arrow-right"></i></button>
+                    <button class="btn btn-secondary">View Documentation</button>
+                </div>
+                <div class="hero-stats">
+                    <div class="stat-item">
+                        <div class="stat-value" data-value="99.9" data-suffix="%">0%</div>
+                        <div class="stat-label">Uptime</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-value" data-value="10000" data-suffix="+">0+</div>
+                        <div class="stat-label">Users</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-value" data-prefix="v" data-value="1.0.38">v0</div>
+                        <div class="stat-label">Latest Build</div>
+                    </div>
+                </div>
+            </div>
+            <div class="hero-visual">
+                <div class="code-container">
+                    <div class="code-header">
+                        <div class="dots">
+                            <div class="dot dot-red"></div>
+                            <div class="dot dot-yellow"></div>
+                            <div class="dot dot-green"></div>
+                        </div>
+                        <div class="code-title">main.lua</div>
+                    </div>
+                    <pre><code class="language-lua">
+-- Initialize the Override service
+local function initService()
+  -- Load configuration
+  local config = {
+    apiKey = "override_key_12345",
+    region = "us-west",
+    maxConnections = 10,
+    retryEnabled = true :: boolean, -- Type annotations (Luau specific)
+    timeout = 30 :: number
+  }
+ 
+  -- Create client instance using Roblox module
+  local Override = require(game:GetService("ReplicatedStorage").Packages.Override)
+  local client = Override.Client.new(config)
+ 
+  -- Set up connection handlers with promises (Luau specific)
+  client:ConnectAsync():andThen(function(status: {success: boolean, message: string?})
+    if status.success then
+      print("Connection established")
+      task.spawn(startApplication) -- Roblox task scheduler
+    else
+      warn("Failed to connect:", status.message or "Unknown error")
+    end
+  end):catch(function(err)
+    error("Connection error: " .. tostring(err))
+  end)
+ 
+  return client
+end
+ 
+-- Run the service
+local client = initService()
+client:SetAnalyticsEnabled(true) -- Roblox-style method names use PascalCase
+                    </code></pre>
+                </div>
+            </div>
+            <div class="scroll-indicator">
+                <div class="chevron"></div>
+                <div class="chevron"></div>
+                <div class="chevron"></div>
+                <span>Explore</span>
+            </div>
+        </section>
+ 
+        <!-- Features Section -->
+        <section id="features" class="features">
+            <div class="section-header">
+                <div class="section-badge">CAPABILITIES</div>
+                <h2>Powerful Features</h2>
+                <p class="section-description">Everything you need to build and scale your Lua applications</p>
+            </div>
+ 
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon-wrapper">
+                        <i class="fas fa-bolt feature-icon"></i>
+                    </div>
+                    <h3>High Performance</h3>
+                    <p>Optimized execution environment with minimal overhead and maximum efficiency. Delivering ultra-fast response times for your applications.</p>
+                    <div class="feature-footer">
+                        <a href="#" class="feature-link">Learn more <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon-wrapper">
+                        <i class="fas fa-shield-alt feature-icon"></i>
+                    </div>
+                    <h3>Enhanced Security</h3>
+                    <p>Advanced sandboxing and permission management for safe script execution. Protect your code with industry-leading security features.</p>
+                    <div class="feature-footer">
+                        <a href="#" class="feature-link">Learn more <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon-wrapper">
+                        <i class="fas fa-code-branch feature-icon"></i>
+                    </div>
+                    <h3>Version Control</h3>
+                    <p>Built-in script versioning with rollback capabilities and change tracking. Never lose work and collaborate seamlessly with your team.</p>
+                    <div class="feature-footer">
+                        <a href="#" class="feature-link">Learn more <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon-wrapper">
+                        <i class="fas fa-cloud feature-icon"></i>
+                    </div>
+                    <h3>Cloud Integration</h3>
+                    <p>Seamless integration with major cloud providers for distributed computing. Scale your applications globally with just a few clicks.</p>
+                    <div class="feature-footer">
+                        <a href="#" class="feature-link">Learn more <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                </div>
+            </div>
+ 
+            <div class="feature-callout">
+                <div class="callout-content">
+                    <h3>Built for the modern developer</h3>
+                    <p>Our platform is designed with the needs of today's developers in mind, providing the tools and capabilities needed to build the next generation of applications.</p>
+                    <button class="btn btn-primary">Explore All Features</button>
+                </div>
+                <div class="callout-visual">
+                    <div class="metrics-card">
+                        <div class="metrics-header">
+                            <h4>Performance Metrics</h4>
+                            <div class="metrics-timeframe">Last 24 hours</div>
+                        </div>
+                        <div class="metrics-graph">
+                            <div class="graph-bar" style="height: 40%"></div>
+                            <div class="graph-bar" style="height: 60%"></div>
+                            <div class="graph-bar" style="height: 30%"></div>
+                            <div class="graph-bar" style="height: 80%"></div>
+                            <div class="graph-bar" style="height: 70%"></div>
+                            <div class="graph-bar" style="height: 90%"></div>
+                            <div class="graph-bar active" style="height: 75%"></div>
+                        </div>
+                        <div class="metrics-stats">
+                            <div class="metric">
+                                <div class="metric-value">4ms</div>
+                                <div class="metric-label">Response Time</div>
+                            </div>
+                            <div class="metric">
+                                <div class="metric-value">99.9%</div>
+                                <div class="metric-label">Uptime</div>
+                            </div>
+                            <div class="metric">
+                                <div class="metric-value">1.2M</div>
+                                <div class="metric-label">Requests</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+ 
+        <!-- Terminal Demo Section -->
+        <section class="terminal-section">
+            <div class="section-header">
+                <div class="section-badge">INTERACTIVE</div>
+                <h2>Command Line Interface</h2>
+                <p class="section-description">Powerful tools accessible through our intuitive CLI</p>
+            </div>
+ 
+            <div class="terminal">
+                <div class="terminal-header">
+                    <div class="terminal-buttons">
+                        <span class="terminal-button red"></span>
+                        <span class="terminal-button yellow"></span>
+                        <span class="terminal-button green"></span>
+                    </div>
+                    <div class="terminal-title">override-cli ~ /project</div>
+                    <div class="terminal-actions">
+                        <i class="fas fa-expand"></i>
+                    </div>
+                </div>
+                <div class="terminal-body">
+                    <div class="terminal-line"><span class="terminal-prompt">$</span> override init project</div>
+                    <div class="terminal-line"><span class="terminal-output">Initializing Override project...</span></div>
+                    <div class="terminal-line"><span class="terminal-output">Creating configuration files...</span></div>
+                    <div class="terminal-line"><span class="terminal-output">Setting up dependencies...</span></div>
+                    <div class="terminal-line"><span class="terminal-output">Project initialized successfully!</span></div>
+                    <div class="terminal-line"><span class="terminal-prompt">$</span> override run script.lua</div>
+                    <div class="terminal-line"><span class="terminal-output">Executing script.lua with Override runtime v1.0.38</span></div>
+                    <div class="terminal-line"><span class="terminal-output">Script executed successfully in 4ms</span></div>
+                    <div class="terminal-line"><span class="terminal-prompt">$</span> <span class="terminal-cursor"></span></div>
+                </div>
+            </div>
+ 
+            <div class="terminal-features">
+                <div class="terminal-feature">
+                    <div class="terminal-feature-icon">
+                        <i class="fas fa-terminal"></i>
+                    </div>
+                    <h4>Powerful CLI</h4>
+                    <p>Access all platform features directly from your terminal with intuitive commands</p>
+                </div>
+                <div class="terminal-feature">
+                    <div class="terminal-feature-icon">
+                        <i class="fas fa-magic"></i>
+                    </div>
+                    <h4>Smart Autocomplete</h4>
+                    <p>Intelligent command suggestions as you type for maximum productivity</p>
+                </div>
+                <div class="terminal-feature">
+                    <div class="terminal-feature-icon">
+                        <i class="fas fa-cogs"></i>
+                    </div>
+                    <h4>Custom Scripts</h4>
+                    <p>Create and run your own automation workflows with simple configuration</p>
+                </div>
+            </div>
+        </section>
+ 
+        <!-- Code Examples Section -->
+        <section class="code-examples">
+            <div class="section-header">
+                <div class="section-badge">EXAMPLES</div>
+                <h2>Simple Yet Powerful</h2>
+                <p class="section-description">A few lines of code is all you need to get started</p>
+            </div>
+ 
+            <div class="code-tabs">
+                <div class="code-tab active" data-tab="basic">Basic</div>
+                <div class="code-tab" data-tab="advanced">Advanced</div>
+                <div class="code-tab" data-tab="integration">Integration</div>
+            </div>
+ 
+            <div class="code-panels">
+                <div class="code-panel active" id="basic-panel">
+                    <div class="code-container full-width">
+                        <div class="code-header">
+                            <div class="code-dots">
+                                <span></span>
+                                <span></span>
+                                <span></span>
+                            </div>
+                            <div class="code-title">basic_example.lua</div>
+                            <div class="code-actions">
+                                <span><i class="fas fa-copy"></i></span>
+                            </div>
+                        </div>
+                        <pre><code class="lua">
+-- Initialize Override with basic configuration
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
+local Override = require(ReplicatedStorage.Packages.Override)
+ 
+-- Configure with type checking (Luau feature)
+type ConfigType = {
+  apiKey: string,
+  region: string,
+  debugMode: boolean?
+}
+ 
+-- Create a new client with Luau typing
+local config: ConfigType = {
+  apiKey = "your_api_key",
+  region = "us-west-2",
+  debugMode = true
+}
+ 
+-- Create client and use proper Roblox naming conventions
+local client = Override.Client.new(config)
+ 
+-- Connect with modern async/await pattern
+task.spawn(function()
+  local success, result = pcall(function()
+    return client:ExecuteAsync("return 'Hello from Override!'"):await()
+  end)
+ 
+  if success then
+    print(result) -- Outputs: Hello from Override!
+  else
+    warn("Error:", result)
+  end
+end)
+                        </code></pre>
+                    </div>
+                </div>
+            </div>
+        </section>
+ 
+        <!-- Pricing Plans Section -->
+        <section class="pricing-section" id="pricing">
+            <div class="pricing-container">
+                <div class="section-header">
+                    <div class="section-badge">PRICING</div>
+                    <h2>Choose Your Plan</h2>
+                    <p class="section-description">Select the perfect plan for your needs with our flexible pricing options</p>
+                </div>
+ 
+                <div class="pricing-toggle">
+                    <span class="pricing-period active">Monthly</span>
+                    <label class="toggle-switch">
+                        <input type="checkbox" id="pricing-toggle-input">
+                        <span class="toggle-slider"></span>
+                    </label>
+                    <span class="pricing-period">Annual <span class="pricing-discount">Save 20%</span></span>
+                </div>
+ 
+                <div class="pricing-plans">
+                    <div class="pricing-card">
+                        <div class="pricing-card-header">
+                            <h3>Starter</h3>
+                            <div class="pricing-price">
+                                <span class="price monthly">$19</span>
+                                <span class="price annual">$15</span>
+                                <span class="price-period">/month</span>
+                            </div>
+                            <p class="pricing-description">Perfect for individuals and small projects</p>
+                        </div>
+                        <div class="pricing-features">
+                            <div class="pricing-feature">
+                                <i class="fas fa-check"></i>
+                                <span>Up to 5 projects</span>
+                            </div>
+                            <div class="pricing-feature">
+                                <i class="fas fa-check"></i>
+                                <span>100 script executions/day</span>
+                            </div>
+                            <div class="pricing-feature">
+                                <i class="fas fa-check"></i>
+                                <span>5GB storage</span>
+                            </div>
+                            <div class="pricing-feature">
+                                <i class="fas fa-check"></i>
+                                <span>Community support</span>
+                            </div>
+                            <div class="pricing-feature disabled">
+                                <i class="fas fa-times"></i>
+                                <span>Advanced analytics</span>
+                            </div>
+                            <div class="pricing-feature disabled">
+                                <i class="fas fa-times"></i>
+                                <span>Team collaboration</span>
+                            </div>
+                        </div>
+                        <div class="pricing-cta">
+                            <a href="#" class="button button-outline">Get Started</a>
+                        </div>
+                    </div>
+ 
+                    <div class="pricing-card featured">
+                        <div class="pricing-card-badge">Popular</div>
+                        <div class="pricing-card-header">
+                            <h3>Professional</h3>
+                            <div class="pricing-price">
+                                <span class="price monthly">$49</span>
+                                <span class="price annual">$39</span>
+                                <span class="price-period">/month</span>
+                            </div>
+                            <p class="pricing-description">Ideal for professionals and growing teams</p>
+                        </div>
+                        <div class="pricing-features">
+                            <div class="pricing-feature">
+                                <i class="fas fa-check"></i>
+                                <span>Unlimited projects</span>
+                            </div>
+                            <div class="pricing-feature">
+                                <i class="fas fa-check"></i>
+                                <span>1,000 script executions/day</span>
+                            </div>
+                            <div class="pricing-feature">
+                                <i class="fas fa-check"></i>
+                                <span>20GB storage</span>
+                            </div>
+                            <div class="pricing-feature">
+                                <i class="fas fa-check"></i>
+                                <span>Priority support</span>
+                            </div>
+                            <div class="pricing-feature">
+                                <i class="fas fa-check"></i>
+                                <span>Advanced analytics</span>
+                            </div>
+                            <div class="pricing-feature">
+                                <i class="fas fa-check"></i>
+                                <span>Team collaboration</span>
+                            </div>
+                        </div>
+                        <div class="pricing-cta">
+                            <a href="#" class="button button-primary">Get Started</a>
+                        </div>
+                    </div>
+ 
+                    <div class="pricing-card">
+                        <div class="pricing-card-header">
+                            <h3>Enterprise</h3>
+                            <div class="pricing-price">
+                                <span class="price monthly">$99</span>
+                                <span class="price annual">$79</span>
+                                <span class="price-period">/month</span>
+                            </div>
+                            <p class="pricing-description">For large teams with advanced needs</p>
+                        </div>
+                        <div class="pricing-features">
+                            <div class="pricing-feature">
+                                <i class="fas fa-check"></i>
+                                <span>Unlimited everything</span>
+                            </div>
+                            <div class="pricing-feature">
+                                <i class="fas fa-check"></i>
+                                <span>10,000 script executions/day</span>
+                            </div>
+                            <div class="pricing-feature">
+                                <i class="fas fa-check"></i>
+                                <span>100GB storage</span>
+                            </div>
+                            <div class="pricing-feature">
+                                <i class="fas fa-check"></i>
+                                <span>24/7 dedicated support</span>
+                            </div>
+                            <div class="pricing-feature">
+                                <i class="fas fa-check"></i>
+                                <span>Custom analytics dashboard</span>
+                            </div>
+                            <div class="pricing-feature">
+                                <i class="fas fa-check"></i>
+                                <span>Advanced collaboration tools</span>
+                            </div>
+                        </div>
+                        <div class="pricing-cta">
+                            <a href="#" class="button button-outline">Contact Sales</a>
+                        </div>
+                    </div>
+                </div>
+ 
+                <div class="pricing-enterprise">
+                    <div class="enterprise-content">
+                        <h3>Looking for a custom solution?</h3>
+                        <p>Contact our sales team for a tailored enterprise package that meets your specific requirements.</p>
+                    </div>
+                    <a href="#" class="button button-secondary">Contact Sales</a>
+                </div>
+            </div>
+        </section>
+ 
+        <!-- FAQ Section -->
+        <section class="faq-section">
+            <div class="section-header">
+                <div class="section-badge">SUPPORT</div>
+                <h2>Frequently Asked Questions</h2>
+                <p class="section-description">Find answers to the most common questions about Override</p>
+            </div>
+ 
+            <div class="pricing-faq">
+                <div class="faq-items">
+                    <div class="faq-item">
+                        <div class="faq-question">
+                            <span>How does Override compare to other Lua platforms?</span>
+                            <i class="fas fa-chevron-down"></i>
+                        </div>
+                        <div class="faq-answer">
+                            <p>Override offers unparalleled performance with our optimized runtime environment, advanced tooling for debugging and profiling, and seamless cloud integration. Our platform is designed specifically for modern Lua development with features like automatic scaling, version control integration, and comprehensive analytics.</p>
+                        </div>
+                    </div>
+ 
+                    <div class="faq-item">
+                        <div class="faq-question">
+                            <span>Can I upgrade or downgrade my plan at any time?</span>
+                            <i class="fas fa-chevron-down"></i>
+                        </div>
+                        <div class="faq-answer">
+                            <p>Yes, you can easily change your subscription at any time. When upgrading, the new pricing and features take effect immediately. If you downgrade, the changes will apply at the start of your next billing cycle. There are no penalties or fees for changing plans.</p>
+                        </div>
+                    </div>
+ 
+                    <div class="faq-item">
+                        <div class="faq-question">
+                            <span>Is there a free trial available?</span>
+                            <i class="fas fa-chevron-down"></i>
+                        </div>
+                        <div class="faq-answer">
+                            <p>We offer a 14-day free trial of the Professional plan with full access to all features, no credit card required. After your trial ends, you can choose to subscribe to any of our plans or downgrade to our free Starter plan with limited functionality.</p>
+                        </div>
+                    </div>
+ 
+                    <div class="faq-item">
+                        <div class="faq-question">
+                            <span>How secure is the Override platform?</span>
+                            <i class="fas fa-chevron-down"></i>
+                        </div>
+                        <div class="faq-answer">
+                            <p>Security is our top priority. Override implements industry-leading security measures including end-to-end encryption, routine security audits, and compliance with GDPR and SOC 2 standards. Our Enterprise plan offers additional security features like dedicated infrastructure, custom firewalls, and advanced access controls.</p>
+                        </div>
+                    </div>
+ 
+                    <div class="faq-item">
+                        <div class="faq-question">
+                            <span>What kind of support is available?</span>
+                            <i class="fas fa-chevron-down"></i>
+                        </div>
+                        <div class="faq-answer">
+                            <p>The level of support depends on your plan. Starter users have access to our community forums and documentation. Professional plan users receive priority email support with a 24-hour response guarantee. Enterprise customers enjoy 24/7 dedicated support with a dedicated account manager and guaranteed response times based on issue severity.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+ 
+        <!-- Testimonials Section -->
+        <section class="testimonials">
+            <div class="section-header">
+                <div class="section-badge">TESTIMONIALS</div>
+                <h2>What Developers Are Saying</h2>
+                <p class="section-description">Join thousands of developers who trust Override</p>
+            </div>
+ 
+            <div class="testimonial-slider">
+                <div class="testimonial-card">
+                    <div class="testimonial-content">
+                        <div class="testimonial-quote">"Override revolutionized how we handle our Lua scripting. The performance boost alone was worth the switch."</div>
+                    </div>
+                    <div class="testimonial-author">
+                        <div class="testimonial-avatar"></div>
+                        <div class="testimonial-info">
+                            <div class="testimonial-name">Alex Chen</div>
+                            <div class="testimonial-position">Lead Developer, TechCorp</div>
+                        </div>
+                    </div>
+                </div>
+ 
+                <div class="testimonial-nav">
+                    <button class="testimonial-nav-btn prev"><i class="fas fa-arrow-left"></i></button>
+                    <div class="testimonial-indicators">
+                        <span class="indicator active"></span>
+                        <span class="indicator"></span>
+                        <span class="indicator"></span>
+                    </div>
+                    <button class="testimonial-nav-btn next"><i class="fas fa-arrow-right"></i></button>
+                </div>
+            </div>
+        </section>
+ 
+        <!-- CTA Section -->
+        <section class="cta-section">
+            <div class="cta-content">
+                <h2>Ready to get started?</h2>
+                <p>Join thousands of developers building the future with Override.</p>
+                <div class="cta-buttons">
+                    <button class="btn btn-primary btn-glow">Create Free Account</button>
+                    <button class="btn btn-outline">Contact Sales</button>
+                </div>
+            </div>
+            <div class="cta-visual">
+                <div class="cta-decoration"></div>
+            </div>
+        </section>
+ 
+        <!-- Footer -->
+        <footer>
+            <div class="footer-content">
+                <div class="footer-brand">
+                    <div class="footer-logo">Override<span class="footer-logo-dot"></span></div>
+                    <p class="footer-tagline">The next generation Lua utility service for developers</p>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-github"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-discord"></i></a>
+                        <a href="#"><i class="fab fa-linkedin"></i></a>
+                    </div>
+                </div>
+ 
+                <div class="footer-links">
+                    <div class="footer-column">
+                        <h4>Product</h4>
+                        <ul>
+                            <li><a href="#">Features</a></li>
+                            <li><a href="#">Pricing</a></li>
+                            <li><a href="#">Documentation</a></li>
+                            <li><a href="#">Changelog</a></li>
+                        </ul>
+                    </div>
+                    <div class="footer-column">
+                        <h4>Company</h4>
+                        <ul>
+                            <li><a href="#">About Us</a></li>
+                            <li><a href="#">Careers</a></li>
+                            <li><a href="#">Blog</a></li>
+                            <li><a href="#">Contact</a></li>
+                        </ul>
+                    </div>
+                    <div class="footer-column">
+                        <h4>Resources</h4>
+                        <ul>
+                            <li><a href="#">Community</a></li>
+                            <li><a href="#">Help Center</a></li>
+                            <li><a href="#">Status</a></li>
+                            <li><a href="#">API</a></li>
+                        </ul>
+                    </div>
+                    <div class="footer-column">
+                        <h4>Legal</h4>
+                        <ul>
+                            <li><a href="#">Privacy Policy</a></li>
+                            <li><a href="#">Terms of Service</a></li>
+                            <li><a href="#">Cookie Policy</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>Â© 2023 Override. All rights reserved.</p>
+                <div class="footer-badges">
+                    <div class="badge">
+                        <i class="fas fa-lock"></i> SSL Secured
+                    </div>
+                    <div class="badge">
+                        <i class="fas fa-shield-alt"></i> GDPR Compliant
+                    </div>
+                </div>
+            </div>
+        </footer>
+    </div>
+ 
+    <script src="script.js"></script>
+</body>
+ 
+</html>
